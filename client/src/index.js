@@ -9,14 +9,13 @@ import App from './components/App';
 
 import "./styles/index.css";
 import "./semantic-dist/semantic.css";
+// import './index-complete';
 
-// [STEP 1] Comment out this line:
-import './index-complete';
-
-// [STEP 2] Un-comment these lines:
-// ReactDOM.render(
-//   <Router>
-//     <App />
-//   </Router>,
-//   document.getElementById("root")
-// );
+// A common pattern for apps that use Router is 
+// to wrap App component with Router
+ReactDOM.render(
+  <Router>
+    <App />
+  </Router>,
+  document.getElementById("root")
+);
