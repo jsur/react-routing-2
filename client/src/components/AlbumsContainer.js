@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import { Route } from 'react-router-dom';
+import VerticalMenu from './VerticalMenu';
 import Album from './Album';
 import { client } from '../Client';
 
@@ -44,22 +45,30 @@ class AlbumsContainer extends Component {
             className='ui six wide column'
             style={{ maxWidth: 250 }}
           >
-            {/* VerticalMenu will go here */}
+            <VerticalMenu
+              albums={this.state.albums}
+            />
           </div>
           <div className='ui ten wide column'>
-            {
-              this.state.albums.map((a) => (
-                <div
-                  className='row'
-                  key={a.id}
-                >
-                  <Album album={a} />
-                </div>
-              ))
-            }
+            <Route
+              path='/albums/:albumid'
+              render={({ match }) => {
+                const album = this.state.albums.find(
+                  (a) => a.id === match.params.albumid
+                );
+                return (
+                  <Album
+                    album={album}
+                  />
+                )
+              }}
+            />
           </div>
         </div>
       );
+      // Route invokes the render function with some arguments
+      // one of them is "match"!
+      // match.params contains all the dynamic parameters of the URL
     }
   }
 }
