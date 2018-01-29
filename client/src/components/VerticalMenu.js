@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import '../styles/VerticalMenu.css';
 
@@ -10,13 +10,18 @@ const VerticalMenu = ({ albums, albumsPathname }) => (
     </div>
     {
       albums.map((album) => (
-        <Link
+        <NavLink
           to={`${albumsPathname}/${album.id}`}
+          /*
+            This is not needed, default value of 
+            activeClassName is active in NavLink
+          */
+          // activeClassName='active'
           className='item'
           key={album.id}
         >
           {album.name}
-        </Link>
+        </NavLink>
       ))
     }
   </div>
