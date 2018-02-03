@@ -6,10 +6,33 @@ import { Redirect } from 'react-router-dom';
 import { client } from '../Client';
 
 class Login extends Component {
+
+  state = {
+    loginInProgress: false,
+    shouldRedirect: false
+  };
+
+  performLogin = () => {
+    this.setState({ loginInProgress: true });
+    client.login().then(() => (
+      this.setState({ shouldRedirect: true })
+    ));
+  };
+
+  // keep the path the user was trying to access in state, so that
+  // they are redirected to it after login. more user friendly this way.
+  redirectPath = () => {
+    const locationState = this.props.location.state;
+    const pathname = (
+      locationState && locationState.from && locationState.from.pathname
+    );
+    return pathname || '/albums';
+  };
+
   render() {
-    if ('todo') {
+    if (this.state.shouldRedirect) {
       return (
-        'todo'
+        <Redirect to={this.redirectPath()} />
       );
     } else {
       return (
@@ -23,7 +46,16 @@ class Login extends Component {
                 Fullstack Music
               </h2>
               {
-                /* todo */
+                this.state.loginInProgress ? (
+                  <div className='ui active centered inline loader' />
+                ) : (
+                  <div
+                    className='ui large green submit button'
+                    onClick={this.performLogin}
+                  >
+                    Login
+                  </div>
+                )
               }
             </div>
           </div>
